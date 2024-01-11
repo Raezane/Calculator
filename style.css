@@ -9,6 +9,8 @@ body {
     display: flex;
     width: auto;
     height: auto;
+    min-width: 25vw;
+    flex-direction: column;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -19,6 +21,74 @@ body {
 }
 
 #display {
-    width: 25vw;
-    height: 75vh;
+    flex: 4 1 auto;
+    height: 15vh;
+    margin: 3%;
+    border-width: 1%;
+    border-color: black;
+    border-style: solid;
+    
+}
+
+#buttons {
+    display: flex;
+    flex: 2 1 auto;
+    padding: 0 3% 3% 3%;
+}
+
+#leftside {
+    flex: 4 1 0;
+    margin-right: 3%;
+}
+
+#rightside {
+    display: flex;
+    gap: 2.5%;
+    flex: 1 1 auto;
+    flex-direction: column;
+    margin-bottom: 3%;
+}
+
+#firstleftline {
+    display: flex;
+    gap: 4%;
+    margin-bottom: 4%;
+    
+}
+
+.equalClear {
+    padding: 10%;
+    background-color: rgb(255, 81, 81);
+    border-radius: 10%;
+}
+
+.previous {
+    flex: 1 1 0;
+}
+
+.all {
+    flex: 4 1 auto;
+}
+
+#restleftlines {
+    display: flex;
+    gap: 4%;
+    flex-wrap: wrap;
+}
+
+.numberbutton {
+    flex: 1 1 auto;
+    padding: 10%;
+    margin-bottom: 4%;
+    border-radius: 10%;
+}
+
+.operators {
+    padding: 15%;
+    flex: 1 1 0;
+    border-radius: 10%;
+}
+
+.plus {
+    flex: 1 1 27%;
 }
