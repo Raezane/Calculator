@@ -7,9 +7,8 @@ body {
 
 #calculator {
     display: flex;
-    width: auto;
-    height: auto;
     min-width: 25vw;
+    max-width: min-content;
     flex-direction: column;
     position: absolute;
     top: 50%;
@@ -22,12 +21,18 @@ body {
 
 #display {
     flex: 4 1 auto;
+    display: flex;
     height: 15vh;
     margin: 3%;
+    padding: 3% 3% 3% 3%;
     border-width: 1%;
     border-color: black;
     border-style: solid;
-    
+    font-size: 3vh;
+    align-items: end;
+    justify-content: end;
+    overflow-wrap: anywhere;
+    overflow: hidden;
 }
 
 #buttons {
@@ -56,6 +61,12 @@ body {
     
 }
 
+#restleftlines {
+    display: flex;
+    gap: 4%;
+    flex-wrap: wrap;
+}
+
 .equalClear {
     padding: 10%;
     background-color: rgb(255, 81, 81);
@@ -68,12 +79,6 @@ body {
 
 .all {
     flex: 4 1 auto;
-}
-
-#restleftlines {
-    display: flex;
-    gap: 4%;
-    flex-wrap: wrap;
 }
 
 .numberbutton {
@@ -90,5 +95,5 @@ body {
 }
 
 .plus {
-    flex: 1 1 27%;
+    flex: 1 1 27.2%;
 }
