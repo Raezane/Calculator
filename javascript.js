@@ -40,7 +40,7 @@
             operatedWithoutNextValue == false;
           }
 
-      } else if ('0123456789.'.includes(button.textContent) ) {
+      } else if ('0123456789.'.includes(button.textContent) && operation['operator'] !== undefined) {
           buttonRow.push(button.textContent);
           operation['nextNum'].push(button.textContent);
           operatedWithoutNextValue = false;
@@ -55,6 +55,8 @@
 
 function displayInput (result) {
   
+  //check if result is integer with zero-decimals and if so, remove the zero-decimals
+  if (result % 1 == 0) result = Math.round(result)
   if (Array.isArray(result)) result = result.join('');
   display.textContent = result;
   console.log(operated)
@@ -64,10 +66,10 @@ function displayInput (result) {
 
 function clearLast (buttonRow, operation, operatedWithoutNextValue) {
 
-  if (operation['firstNum'][operation['firstNum'].length-1] === buttonRow[buttonRow.length-1]) {
-    operation['firstNum'].splice(operation['firstNum'].length-1, 1)
-  } else if (operation['nextNum'][operation['nextNum'].length-1] === buttonRow[buttonRow.length-1]) {
+  if (operation['nextNum'][operation['nextNum'].length-1] === buttonRow[buttonRow.length-1]) {
     operation['nextNum'].splice(operation['nextNum'].length-1, 1)
+  } else if (operation['firstNum'][operation['firstNum'].length-1] === buttonRow[buttonRow.length-1]) {
+    operation['firstNum'].splice(operation['firstNum'].length-1, 1)
   } else operation['operator'] = undefined;
 
   buttonRow.splice(buttonRow.length-1, 1);
@@ -82,6 +84,7 @@ function clearAll (buttonRow, operation) {
   operation['operator'] = undefined;
   operation['nextNum'] = [];
   operated = false;
+  operatedWithoutNextValue = false;
 
 };
 
@@ -92,20 +95,34 @@ function operatorNotInRow (button, buttonRow, operation) {
 
 }
 
+function isDecimal(a, b) {
+  for (const string of a) {
+    if (string == '.') return true
+  };
+  for (const string of b) {
+    if (string == '.') return true
+  };
+  return false;
+};
+
 function add (a, b) {
-  return parseInt(a) + parseInt(b)
+  return isDecimal(a, b) == true ? (parseFloat(a) + parseFloat(b)).toFixed(2) : parseInt(a) + parseInt(b)
 }
 
 function subtract (a, b) {
-  return a - b
+  return isDecimal(a, b) == true ? (parseFloat(a) - parseFloat(b)).toFixed(2) : parseInt(a) - parseInt(b)
 }
 
 function multiply (a, b) {
-  return a * b
+  return isDecimal(a, b) == true ? (parseFloat(a) * parseFloat(b)).toFixed(2) : parseInt(a) * parseInt(b)
 }
 
 function divide (a, b) {
-  return a / b
+  if (a === '0' && b >= '0') { 
+    return "ERROR: Can't divide by zero!"
+  } else if (isDecimal(a, b) == true) {
+      return (parseFloat(a) / parseFloat(b)).toFixed(2)
+  } else return parseInt(a) / parseInt(b)
 }
 
 function operate(operation) {
