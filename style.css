@@ -3,6 +3,12 @@ body {
     height: 100vh;
     width: 100vw;
     position: relative;
+    background-color: beige;
+}
+
+@font-face {
+    font-family: digital;
+    src: url('DS-DIGI.TTF') format('truetype');
 }
 
 #calculator {
@@ -17,6 +23,9 @@ body {
     border-style: solid;
     border-width: 3px;
     border-color: black;
+    background-color: rgb(121, 121, 121, 0.6);
+    border-radius: 4%;
+    
 }
 
 #display {
@@ -28,11 +37,14 @@ body {
     border-width: 1%;
     border-color: black;
     border-style: solid;
-    font-size: 3vh;
+    font-size: 4vmax;
+    font-family: digital, Arial, Helvetica, sans-serif;
+    font-weight: 500;
     align-items: end;
     justify-content: end;
     overflow-wrap: anywhere;
     overflow: hidden;
+    background-color: rgba(95, 119, 95, 0.6);
 }
 
 #buttons {
@@ -69,8 +81,12 @@ body {
 
 .equalClear {
     padding: 10%;
-    background-color: rgb(255, 81, 81);
+    background-color: rgb(255, 81, 81, 0.9);
     border-radius: 10%;
+    font-weight: bold;
+    border-width: 3px;
+    font-size: large;
+
 }
 
 .previous {
@@ -86,14 +102,28 @@ body {
     padding: 10%;
     margin-bottom: 4%;
     border-radius: 10%;
+    font-weight: bold;
+    border-width: 3px;
+    font-size: large;
+    background-color: rgb(0, 0, 0, 0.7);
+    color: white;
+}
+
+.equals {
+    background-color: rgb(255, 81, 81, 0.9);
+    color: black;
 }
 
 .operators {
     padding: 15%;
     flex: 1 1 0;
     border-radius: 10%;
+    font-weight: bold;
+    border-width: 3px;
+    font-size: large;
+
 }
 
 .plus {
-    flex: 1 1 27.2%;
+    flex: 1 1 27.4%;
 }

@@ -21,7 +21,7 @@
         operate(operation);
         buttonRow.splice(0, buttonRow.length, operation['firstNum']);
 
-      } else if ('0123456789.'.includes(button.textContent) && operation['nextNum'].length == 0
+      } else if ('0123456789'.includes(button.textContent) && operation['nextNum'].length == 0
        && operation['operator'] == undefined && operated == false) {
           buttonRow.push(button.textContent);
           operation['firstNum'].push(button.textContent);
@@ -40,12 +40,23 @@
             operatedWithoutNextValue == false;
           }
 
-      } else if ('0123456789.'.includes(button.textContent) && operation['operator'] !== undefined) {
+      } else if ('0123456789'.includes(button.textContent) && operation['operator'] !== undefined) {
           buttonRow.push(button.textContent);
           operation['nextNum'].push(button.textContent);
           operatedWithoutNextValue = false;
-      }
-
+      
+      } else if ('.'.includes(button.textContent)) {
+          if (dotNotInRow(operation['firstNum'], button) && (operation['operator'] == undefined
+            || operation['nextNum'].length == 0)) {
+                operation['firstNum'].push(button.textContent);
+                buttonRow.push(button.textContent);
+          } else if (dotNotInRow(operation['nextNum'], button) && (operation['operator'] !== undefined
+            || operation['nextNum'].length !== 0)) {
+                operation['nextNum'].push(button.textContent);
+                buttonRow.push(button.textContent);
+          };
+      };
+      
         if (button.textContent !== '=') {
           displayInput(buttonRow);
       };
@@ -86,6 +97,12 @@ function clearAll (buttonRow, operation) {
   operated = false;
   operatedWithoutNextValue = false;
 
+};
+
+function dotNotInRow (operation, button) {
+  if (!(operation.includes(button.textContent))) {
+    return true
+  };
 };
 
 function operatorNotInRow (button, buttonRow, operation) {
