@@ -1,5 +1,3 @@
-
-
   const display = document.querySelector('#display');
   const allButtons = document.querySelectorAll('button');
 
@@ -13,66 +11,93 @@
     nextNum: [],
   };
 
-  allButtons.forEach((button) => {
-    button.addEventListener('click', () => {
+  addListeners();
 
-      if (button.textContent === '=' && ((operation['firstNum'].length > 0 || Array.isArray(operation['firstNum']) == false)
+  function addListeners () {
+
+  window.addEventListener('keydown', clickOrPress)
+
+  allButtons.forEach((button) => {
+    button.addEventListener('click', clickOrPress)
+  });
+
+
+};
+
+  function clickOrPress(e) {
+
+    console.log(e);
+    let choice;
+
+    switch(e.type) {
+      case 'click':
+        choice = e.target.textContent
+        
+        getInput(choice)  
+        break;
+
+      case 'keydown':
+        choice = e.key;
+
+        getInput(choice)  
+        break;
+    };
+  };
+
+    function getInput(choice) {
+  
+      if ((choice === '=' || choice === 'Enter' ) && ((operation['firstNum'].length > 0 || Array.isArray(operation['firstNum']) == false)
       && operation['operator'] !== undefined && operation['nextNum'].length > 0)) {
         operate(operation);
         buttonRow.splice(0, buttonRow.length, operation['firstNum']);
 
-      } else if ('0123456789'.includes(button.textContent) && operation['nextNum'].length == 0
+      } else if ('0123456789'.includes(choice) && operation['nextNum'].length == 0
        && operation['operator'] == undefined && operated == false) {
-          buttonRow.push(button.textContent);
-          operation['firstNum'].push(button.textContent);
+          buttonRow.push(choice);
+          operation['firstNum'].push(choice);
 
-      } else if (button.textContent === 'C') {
+      } else if (choice === 'C'|| choice === 'c' || choice === 'Backspace') {
           clearLast(buttonRow, operation, operatedWithoutNextValue)
         
-      } else if (button.textContent === 'AC') {
+      } else if (choice === 'AC' || choice === 'Delete') {
           clearAll(buttonRow, operation);
 
-      } else if ('/*-+'.includes(button.textContent)) {
+      } else if ('/*-+'.includes(choice)) {
           if ('/*-+'.includes(buttonRow[buttonRow.length-1])) buttonRow.splice(buttonRow.length-1, 1)
-          if (operatorNotInRow(button, buttonRow, operation) == true) {
-            buttonRow.push(button.textContent);
-            operation['operator'] = button.textContent;
+          if (operatorNotInRow(choice, buttonRow, operation) == true) {
+            buttonRow.push(choice);
+            operation['operator'] = choice;
             operatedWithoutNextValue == false;
           }
 
-      } else if ('0123456789'.includes(button.textContent) && operation['operator'] !== undefined) {
-          buttonRow.push(button.textContent);
-          operation['nextNum'].push(button.textContent);
+      } else if ('0123456789'.includes(choice) && operation['operator'] !== undefined) {
+          buttonRow.push(choice);
+          operation['nextNum'].push(choice);
           operatedWithoutNextValue = false;
       
-      } else if ('.'.includes(button.textContent)) {
-          if (dotNotInRow(operation['firstNum'], button) && (operation['operator'] == undefined
+      } else if ('.,'.includes(choice)) {
+          if (dotNotInRow(operation['firstNum'], '.') && (operation['operator'] == undefined
             || operation['nextNum'].length == 0)) {
-                operation['firstNum'].push(button.textContent);
-                buttonRow.push(button.textContent);
-          } else if (dotNotInRow(operation['nextNum'], button) && (operation['operator'] !== undefined
+                operation['firstNum'].push('.');
+                buttonRow.push('.');
+          } else if (dotNotInRow(operation['nextNum'], '.') && (operation['operator'] !== undefined
             || operation['nextNum'].length !== 0)) {
-                operation['nextNum'].push(button.textContent);
-                buttonRow.push(button.textContent);
+                operation['nextNum'].push('.');
+                buttonRow.push('.');
           };
       };
       
-        if (button.textContent !== '=') {
+        if (choice !== '=' || choice === 'Enter') {
           displayInput(buttonRow);
       };
-    });
-  });
-
-
+    }
+    
 function displayInput (result) {
   
   //check if result is integer with zero-decimals and if so, remove the zero-decimals
   if (result % 1 == 0) result = Math.round(result)
   if (Array.isArray(result)) result = result.join('');
   display.textContent = result;
-  console.log(operated)
-  
-
 };
 
 function clearLast (buttonRow, operation, operatedWithoutNextValue) {
@@ -86,8 +111,7 @@ function clearLast (buttonRow, operation, operatedWithoutNextValue) {
   buttonRow.splice(buttonRow.length-1, 1);
 
   if (operatedWithoutNextValue == true) clearAll(buttonRow, operation)
-
-}
+};
 
 function clearAll (buttonRow, operation) {
   buttonRow = buttonRow.splice(0, buttonRow.length);
@@ -99,8 +123,8 @@ function clearAll (buttonRow, operation) {
 
 };
 
-function dotNotInRow (operation, button) {
-  if (!(operation.includes(button.textContent))) {
+function dotNotInRow (operation, choice) {
+  if (!(operation.includes(choice))) {
     return true
   };
 };
@@ -110,7 +134,7 @@ function operatorNotInRow (button, buttonRow, operation) {
     if ('/*-+'.includes(item)) return false
   } return true
 
-}
+};
 
 function isDecimal(a, b) {
   for (const string of a) {
@@ -140,7 +164,7 @@ function divide (a, b) {
   } else if (isDecimal(a, b) == true) {
       return (parseFloat(a) / parseFloat(b)).toFixed(2)
   } else return parseInt(a) / parseInt(b)
-}
+};
 
 function operate(operation) {
 
@@ -175,6 +199,3 @@ function operate(operation) {
   operatedWithoutNextValue = true;
   displayInput(result);
 };
-
-
-
